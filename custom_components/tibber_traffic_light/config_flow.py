@@ -1,27 +1,27 @@
-"""Tibber Traffic Light Integration."""
-import logging
-
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+"""Config flow for Tibber Traffic Light."""
+import voluptuous as vol
+from homeassistant import config_entries
 
 DOMAIN = "tibber_traffic_light"
-PLATFORMS = ["light"]
-
-_LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Tibber Traffic Light from config entry."""
-    hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][entry.entry_id] = entry.data
+class TibberTrafficLightConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Config flow for Tibber Traffic Light."""
 
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    return True
+    VERSION = 1
 
+    async def async_step_user(self, user_input=None):
+        """Handle a flow initialized by the user."""
+        if user_input is not None:
+            return self.async_create_entry(
+                title="Tibber Traffic Light",
+                data=user_input,
+            )
 
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Unload a config entry."""
-    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-    if unload_ok:
-        hass.data[DOMAIN].pop(entry.entry_id)
-    return unload_ok
+        return self.async_show_form(
+            step_id="user",
+            data_schema=vol.Schema({
+                vol.Required("price_low", default=0.20): vol.Coerce(float),
+                vol.Required("price_high", default=0.30): vol.Coerce(float),
+            }),
+        )
