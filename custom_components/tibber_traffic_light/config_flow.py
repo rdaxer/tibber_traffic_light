@@ -25,3 +25,7 @@ class TibberTrafficLightConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Required("price_high", default=0.30): vol.Coerce(float),
             }),
         )
+
+
+# Registriere die Config Flow Klasse
+CONFIG_FLOW = TibberTrafficLightConfigFlow
