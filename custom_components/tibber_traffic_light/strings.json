@@ -1,0 +1,17 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Tibber Ampel Konfiguration",
+        "description": "Preisoffset in % einstellen (wie viel % über/unter Durchschnitt für Rot/Grün)",
+        "data": {
+          "price_offset": "Preisoffset in % (5-50, Standard: 20)"
+        }
+      }
+    },
+    "error": {
+      "invalid_offset": "Bitte einen Wert zwischen 5 und 50 eingeben"
+    }
+  },
+  "title": "Tibber Traffic Light"
+}
